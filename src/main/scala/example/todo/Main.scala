@@ -1,7 +1,7 @@
 package example.todo
 
 import cats.effect.{IO, IOApp, Resource}
-import com.comcast.ip4s.IpLiteralSyntax
+import com.comcast.ip4s.{IpLiteralSyntax, Port}
 import example.todo.Domain.TodoImpl
 import example.todo.HttpApi.Routes
 import example.todo.Service.TodoIdGen
@@ -24,10 +24,10 @@ object Main extends IOApp.Simple {
 
   private def server(routes: HttpRoutes[IO]) = {
     for {
-      port <- Resource.pure(sys.env.getOrElse("PORT", "8080"))
+      port <- Resource.pure(sys.env.get("PORT").flatMap(Port.fromString).getOrElse(port"8080"))
       server <- EmberServerBuilder
         .default[IO]
-        .withPort(port"$port")
+        .withPort(port)
         .withHost(host"0.0.0.0")
         .withHttpApp(routes.orNotFound)
         .build
