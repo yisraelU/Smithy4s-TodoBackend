@@ -15,16 +15,17 @@ object Routes {
 
   private val loggers: HttpRoutes[IO] => HttpRoutes[IO] = {
     { http: HttpRoutes[IO] =>
-      RequestLogger.httpRoutes(true, true)(http)
+      RequestLogger.httpRoutes(true, false)(http)
     } andThen { http: HttpRoutes[IO] =>
-      ResponseLogger.httpRoutes(true, true)(http)
+      ResponseLogger.httpRoutes(true, false)(http)
     }
   }
+  private val allMiddleware = corsMiddleware compose loggers
 
   def apply(todoService: TodoService[IO]): ResourceIO[HttpRoutes[IO]] = {
     val primary: Resource[IO, HttpRoutes[IO]] =
       SimpleRestJsonBuilder.routes(todoService).resource
     val docs: HttpRoutes[IO] = smithy4s.http4s.swagger.docs[IO](TodoService)
-    primary.map(_ <+> docs).map(loggers.apply)
+    primary.map(_ <+> docs).map(allMiddleware.apply)
   }
 }
