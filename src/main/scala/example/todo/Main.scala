@@ -24,7 +24,9 @@ object Main extends IOApp.Simple {
 
   private def server(routes: HttpRoutes[IO]) = {
     for {
-      port <- Resource.pure(sys.env.get("PORT").flatMap(Port.fromString).getOrElse(port"8080"))
+      port <- Resource.pure(
+        sys.env.get("PORT").flatMap(Port.fromString).getOrElse(port"8080")
+      )
       server <- EmberServerBuilder
         .default[IO]
         .withPort(port)
