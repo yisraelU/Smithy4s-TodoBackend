@@ -13,4 +13,5 @@ lazy val root = (project in file("."))
       "ch.qos.logback" % "logback-classic" % "1.4.5",
       "org.http4s" %% "http4s-ember-server" % "0.23.16"
     )
-  ).enablePlugins(Smithy4sCodegenPlugin)
+  ).enablePlugins(Smithy4sCodegenPlugin,JavaAppPackaging)
+
