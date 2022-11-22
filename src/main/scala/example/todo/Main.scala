@@ -23,12 +23,15 @@ object Main extends IOApp.Simple {
   }
 
   private def server(routes: HttpRoutes[IO]) = {
-    EmberServerBuilder
-      .default[IO]
-      .withPort(port"80")
-      .withHost(host"0.0.0.0")
-      .withHttpApp(routes.orNotFound)
-      .build
+    for {
+      port <- Resource.pure(sys.env.getOrElse("PORT", "8080"))
+      server <- EmberServerBuilder
+        .default[IO]
+        .withPort(port"$port")
+        .withHost(host"0.0.0.0")
+        .withHttpApp(routes.orNotFound)
+        .build
 
+    } yield server
   }
 }
