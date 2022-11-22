@@ -25,8 +25,8 @@ object Main extends IOApp.Simple {
   private def server(routes: HttpRoutes[IO]) = {
     EmberServerBuilder
       .default[IO]
-      .withPort(port"9000")
-      .withHost(host"localhost")
+      .withPort(port"80")
+      .withHost(host"0.0.0.0")
       .withHttpApp(routes.orNotFound)
       .build
 
