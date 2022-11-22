@@ -40,7 +40,7 @@ operation  DeleteTodo {
 }
 
 @readonly
-@http(method: "GET", uri: "/todos")
+@http(method: "GET", uri: "/todo")
 operation  ListTodos {
     output: ListTodosOutput
 

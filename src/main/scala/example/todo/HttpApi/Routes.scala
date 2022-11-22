@@ -16,7 +16,7 @@ object Routes extends Http4sDsl[IO] {
   }
 
   private val corsMiddleware: HttpRoutes[IO] => HttpRoutes[IO] =
-    CORS.policy.withAllowOriginAll.httpRoutes _
+    CORS.policy.withAllowHeadersAll.withAllowOriginAll.httpRoutes _
 
   private val loggers: HttpRoutes[IO] => HttpRoutes[IO] = {
     { http: HttpRoutes[IO] =>
