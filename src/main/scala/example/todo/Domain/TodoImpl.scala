@@ -7,26 +7,26 @@ import example.todo.Storage.TodoRepo
 
 class TodoImpl(todoRepo: TodoRepo[IO]) extends TodoService[IO] {
   override def createTodo(
-      title: TodoName,
+      title: Title,
       description: Option[TodoDescription]
   ): IO[CreateTodoOutput] =
     todoRepo.createTodo(title, description).map(CreateTodoOutput(_))
 
-  override def getTodo(id: TodoId): IO[GetTodoOutput] =
+  override def getTodo(id: Id): IO[GetTodoOutput] =
     todoRepo.getTodo(id).flatMap {
       case Some(todo) => IO.pure(GetTodoOutput(todo))
       case None       => IO.raiseError(TodoNotFound("Todo not found"))
     }
 
   override def updateTodo(
-      id: TodoId,
-      name: Option[TodoName],
+      id: Id,
+      name: Option[Title],
       description: Option[TodoDescription],
       status: Option[TodoStatus]
   ): IO[Unit] =
     todoRepo.updateTodo(id, name, description, status)
 
-  override def deleteTodo(id: TodoId): IO[Unit] =
+  override def deleteTodo(id: Id): IO[Unit] =
     todoRepo.deleteTodo(id)
 
   override def listTodos(): IO[ListTodosOutput] =

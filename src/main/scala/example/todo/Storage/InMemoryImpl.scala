@@ -5,12 +5,12 @@ import example.todo._
 import example.todo.Domain.TodoOps
 import example.todo.Service.TodoIdGen
 
-class InMemoryImpl(ref: Ref[IO, Map[TodoId, Todo]], todoIdGen: TodoIdGen[IO])
+class InMemoryImpl(ref: Ref[IO, Map[Id, Todo]], todoIdGen: TodoIdGen[IO])
     extends TodoRepo[IO] {
   override def createTodo(
-      title: TodoName,
+      title: Title,
       description: Option[TodoDescription]
-  ): IO[TodoId] =
+  ): IO[Id] =
     for {
       id <- todoIdGen.generateId
       _ <- ref.update(todos =>
@@ -18,12 +18,12 @@ class InMemoryImpl(ref: Ref[IO, Map[TodoId, Todo]], todoIdGen: TodoIdGen[IO])
       )
     } yield id
 
-  override def getTodo(id: TodoId): IO[Option[Todo]] =
+  override def getTodo(id: Id): IO[Option[Todo]] =
     ref.get.map(_.get(id))
 
   override def updateTodo(
-      id: TodoId,
-      name: Option[TodoName],
+      id: Id,
+      name: Option[Title],
       description: Option[TodoDescription],
       status: Option[TodoStatus]
   ): IO[Unit] =
@@ -35,7 +35,7 @@ class InMemoryImpl(ref: Ref[IO, Map[TodoId, Todo]], todoIdGen: TodoIdGen[IO])
       }
     }
 
-  override def deleteTodo(id: TodoId): IO[Unit] = {
+  override def deleteTodo(id: Id): IO[Unit] = {
     ref.update(todos => todos - id)
   }
 
@@ -47,7 +47,7 @@ class InMemoryImpl(ref: Ref[IO, Map[TodoId, Todo]], todoIdGen: TodoIdGen[IO])
 object InMemoryImpl {
   def apply(todoIdGen: TodoIdGen[IO]): IO[InMemoryImpl] = {
     Ref
-      .of[IO, Map[TodoId, Todo]](Map.empty)
+      .of[IO, Map[Id, Todo]](Map.empty)
       .map(ref => new InMemoryImpl(ref, todoIdGen))
   }
 }

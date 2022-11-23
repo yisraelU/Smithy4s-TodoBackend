@@ -4,20 +4,20 @@ import example.todo._
 
 trait TodoRepo[F[_]] {
   def createTodo(
-      title: TodoName,
+      title: Title,
       description: Option[TodoDescription]
-  ): F[TodoId]
+  ): F[Id]
 
-  def getTodo(id: TodoId): F[Option[Todo]]
+  def getTodo(id: Id): F[Option[Todo]]
 
   def updateTodo(
-      id: TodoId,
-      name: Option[TodoName],
+      id: Id,
+      name: Option[Title],
       description: Option[TodoDescription],
       status: Option[TodoStatus]
   ): F[Unit]
 
-  def deleteTodo(id: TodoId): F[Unit]
+  def deleteTodo(id: Id): F[Unit]
 
   def listTodos(): F[List[Todo]]
 

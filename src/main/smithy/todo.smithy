@@ -46,20 +46,21 @@ operation  ListTodos {
 
 }
 
-string TodoId
+string Id
 
-string TodoName
+string Title
 
 string TodoDescription
 
 structure Todo {
     @required
-    id: TodoId
+    id: Id
     @required
-    name: TodoName
+    title: Title
     description: TodoDescription
     @required
     status: TodoStatus
+    order: Integer
 }
 
 
@@ -69,19 +70,19 @@ enum TodoStatus {
 }
 structure CreateTodoInput {
     @required
-    title: TodoName
+    title: Title
     description: TodoDescription
 }
 
 structure CreateTodoOutput {
     @required
-    TodoId: TodoId
+    Id: Id
 }
 
 structure GetTodoInput {
     @required
     @httpLabel
-    id: TodoId
+    id: Id
 }
 
 structure GetTodoOutput {
@@ -99,8 +100,8 @@ structure TodoNotFound {
 structure UpdateTodoInput {
     @required
     @httpLabel
-    id: TodoId
-    name: TodoName
+    id: Id
+    title: Title
     description: TodoDescription
     status: TodoStatus
 }
@@ -108,7 +109,7 @@ structure UpdateTodoInput {
 structure DeleteTodoInput {
     @httpLabel
     @required
-    id: TodoId
+    id: Id
 }
 
 list TodoList {

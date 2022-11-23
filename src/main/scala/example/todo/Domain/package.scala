@@ -4,12 +4,12 @@ package object Domain {
 
   implicit class TodoOps(val todo: Todo) extends AnyVal {
     def update(
-        name: Option[TodoName],
+        title: Option[Title],
         description: Option[TodoDescription],
         status: Option[TodoStatus]
     ): Todo =
       todo.copy(
-        name = name.getOrElse(todo.name),
+        title = title.getOrElse(todo.title),
         description = description.orElse(todo.description),
         status = status.getOrElse(todo.status)
       )
