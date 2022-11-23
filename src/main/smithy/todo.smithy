@@ -68,7 +68,7 @@ string Title
 
 string TodoDescription
 
-string Uri
+string Url
 
 structure Todo {
     @required
@@ -95,7 +95,7 @@ structure CreateTodoOutput {
     @required
     completed:Boolean
     @required
-    uri: Uri
+    url: Url
 }
 
 structure GetTodoInput {
