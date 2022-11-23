@@ -31,6 +31,9 @@ class TodoImpl(todoRepo: TodoRepo[IO]) extends TodoService[IO] {
 
   override def listTodos(): IO[ListTodosOutput] =
     todoRepo.listTodos().map(ListTodosOutput(_))
+
+  override def apiVersion(): IO[ApiVersionOutput] =
+    IO.pure(sys.env.getOrElse("API_VERSION", "1.0.0")).map(ApiVersionOutput(_))
 }
 
 object TodoImpl {

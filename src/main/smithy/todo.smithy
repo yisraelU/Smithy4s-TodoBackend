@@ -7,7 +7,12 @@ use smithy4s.api#simpleRestJson
 @simpleRestJson
 service TodoService {
     version: "1.0"
-    operations: [CreateTodo, GetTodo, UpdateTodo, DeleteTodo, ListTodos]
+    operations: [CreateTodo, GetTodo, UpdateTodo, DeleteTodo, ListTodos,ApiVersion]
+}
+
+@http(method: "GET", uri: "/version")
+operation ApiVersion {
+    output: ApiVersionOutput
 }
 
 @http(method: "POST", uri: "/")
@@ -43,6 +48,12 @@ operation  DeleteTodo {
 @http(method: "GET", uri: "/todo")
 operation  ListTodos {
     output: ListTodosOutput
+
+}
+
+structure ApiVersionOutput {
+    @required
+    version: String
 
 }
 
