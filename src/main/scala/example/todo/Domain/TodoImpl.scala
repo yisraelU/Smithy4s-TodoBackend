@@ -8,9 +8,9 @@ import example.todo.Storage.TodoRepo
 class TodoImpl(todoRepo: TodoRepo[IO]) extends TodoService[IO] {
   override def createTodo(
       title: Title,
-      description: Option[TodoDescription]
+      description: Option[TodoDescription],
   ): IO[CreateTodoOutput] =
-    todoRepo.createTodo(title, description).map(CreateTodoOutput(_,title))
+    todoRepo.createTodo(title, description).map(CreateTodoOutput(_,title,false))
 
   override def getTodo(id: Id): IO[GetTodoOutput] =
     todoRepo.getTodo(id).flatMap {

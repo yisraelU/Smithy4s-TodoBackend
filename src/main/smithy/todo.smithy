@@ -90,6 +90,8 @@ structure CreateTodoOutput {
     Id: Id
     @required
     title:Title
+    @required
+    completed:Boolean
 }
 
 structure GetTodoInput {
