@@ -68,6 +68,8 @@ string Title
 
 string TodoDescription
 
+string Uri
+
 structure Todo {
     @required
     id: Id
@@ -92,6 +94,8 @@ structure CreateTodoOutput {
     title:Title
     @required
     completed:Boolean
+    @required
+    uri: Uri
 }
 
 structure GetTodoInput {

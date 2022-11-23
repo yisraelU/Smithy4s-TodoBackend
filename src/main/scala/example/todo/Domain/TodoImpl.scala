@@ -3,6 +3,7 @@ package example.todo.Domain
 import cats.effect.IO
 import cats.implicits.catsSyntaxApplicativeId
 import example.todo._
+import example.todo.Domain.TodoImpl.uri
 import example.todo.Storage.TodoRepo
 
 class TodoImpl(todoRepo: TodoRepo[IO]) extends TodoService[IO] {
@@ -10,7 +11,9 @@ class TodoImpl(todoRepo: TodoRepo[IO]) extends TodoService[IO] {
       title: Title,
       description: Option[TodoDescription],
   ): IO[CreateTodoOutput] =
-    todoRepo.createTodo(title, description).map(CreateTodoOutput(_,title,false))
+    todoRepo.createTodo(title, description).map{
+      id => CreateTodoOutput(id,title,completed = false,uri(id))
+    }
 
   override def getTodo(id: Id): IO[GetTodoOutput] =
     todoRepo.getTodo(id).flatMap {
@@ -39,6 +42,9 @@ class TodoImpl(todoRepo: TodoRepo[IO]) extends TodoService[IO] {
 }
 
 object TodoImpl {
+
+  val host = "https://todo-smithy4s.herokuapp.com/todo"
+  def uri(id: Id):Uri = Uri(s"$host/$id")
   def apply(todoRepo: TodoRepo[IO]): IO[TodoService[IO]] = {
     new TodoImpl(todoRepo).pure[IO]
   }
