@@ -1,8 +1,10 @@
 package example.todo.Storage
 
+import cats.effect.IO
 import example.todo._
 
 trait TodoRepo[F[_]] {
+
   def createTodo(
       title: Title,
       description: Option[TodoDescription]
@@ -18,6 +20,7 @@ trait TodoRepo[F[_]] {
   ): F[Unit]
 
   def deleteTodo(id: Id): F[Unit]
+  def deleteAll(): F[Unit]
 
   def listTodos(): F[List[Todo]]
 

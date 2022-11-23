@@ -42,6 +42,9 @@ class InMemoryImpl(ref: Ref[IO, Map[Id, Todo]], todoIdGen: TodoIdGen[IO])
   override def listTodos(): IO[List[Todo]] = {
     ref.get.map(_.values.toList)
   }
+
+  override def deleteAll(): IO[Unit] =
+    ref.update(_ => Map.empty)
 }
 
 object InMemoryImpl {
