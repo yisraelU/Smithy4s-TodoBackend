@@ -10,7 +10,7 @@ service TodoService {
     operations: [CreateTodo, GetTodo, UpdateTodo, DeleteTodo, ListTodos]
 }
 
-@http(method: "POST", uri: "/todo")
+@http(method: "POST", uri: "/")
 operation CreateTodo {
     input: CreateTodoInput
     output: CreateTodoOutput
