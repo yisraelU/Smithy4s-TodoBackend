@@ -77,6 +77,8 @@ structure CreateTodoInput {
 structure CreateTodoOutput {
     @required
     Id: Id
+    @required
+    title:Title
 }
 
 structure GetTodoInput {
