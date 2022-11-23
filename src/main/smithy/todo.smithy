@@ -78,7 +78,9 @@ structure Todo {
     description: TodoDescription
     @required
     completed: Boolean
-    order: Integer
+    order: Integer,
+    @required
+    url: Url
 }
 
 structure CreateTodoInput {
