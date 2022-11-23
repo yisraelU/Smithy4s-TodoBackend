@@ -3,6 +3,7 @@ $version: "2.0"
 namespace example.todo
 
 use smithy4s.api#simpleRestJson
+use smithy4s.meta#unwrap
 
 @simpleRestJson
 service TodoService {
@@ -129,11 +130,14 @@ structure DeleteTodoInput {
     id: Id
 }
 
+
 list TodoList {
     member: Todo
 }
 
+
 structure ListTodosOutput {
     @required
+    @httpPayload
     todos: TodoList
 }
