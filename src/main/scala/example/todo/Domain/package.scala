@@ -6,12 +6,12 @@ package object Domain {
     def update(
         title: Option[Title],
         description: Option[TodoDescription],
-        status: Option[TodoStatus]
+        completed: Option[Boolean]
     ): Todo =
       todo.copy(
         title = title.getOrElse(todo.title),
         description = description.orElse(todo.description),
-        status = status.getOrElse(todo.status)
+        completed = completed.getOrElse(false)
       )
   }
 

@@ -75,15 +75,10 @@ structure Todo {
     title: Title
     description: TodoDescription
     @required
-    status: TodoStatus
+    completed: Boolean
     order: Integer
 }
 
-
-enum TodoStatus {
-    OPEN
-    CLOSED
-}
 structure CreateTodoInput {
     @required
     title: Title
@@ -121,7 +116,7 @@ structure UpdateTodoInput {
     id: Id
     title: Title
     description: TodoDescription
-    status: TodoStatus
+    completed: Boolean
 }
 
 structure DeleteTodoInput {

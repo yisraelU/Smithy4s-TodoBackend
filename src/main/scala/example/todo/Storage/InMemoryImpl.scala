@@ -14,7 +14,7 @@ class InMemoryImpl(ref: Ref[IO, Map[Id, Todo]], todoIdGen: TodoIdGen[IO])
     for {
       id <- todoIdGen.generateId
       _ <- ref.update(todos =>
-        todos + (id -> Todo(id, title, TodoStatus.OPEN, description))
+        todos + (id -> Todo(id, title, completed = false, description))
       )
     } yield id
 
@@ -25,12 +25,12 @@ class InMemoryImpl(ref: Ref[IO, Map[Id, Todo]], todoIdGen: TodoIdGen[IO])
       id: Id,
       name: Option[Title],
       description: Option[TodoDescription],
-      status: Option[TodoStatus]
+      completed: Option[Boolean]
   ): IO[Unit] =
     ref.update { todos =>
       todos.get(id) match {
         case Some(value) =>
-          todos + (id -> value.update(name, description, status))
+          todos + (id -> value.update(name, description, completed))
         case None => todos
       }
     }
