@@ -9,9 +9,9 @@ lazy val root = (project in file("."))
     libraryDependencies ++= Seq(
       "com.disneystreaming.smithy4s" %% "smithy4s-http4s" % smithy4sVersion.value,
       "com.disneystreaming.smithy4s" %% "smithy4s-http4s-swagger" % smithy4sVersion.value,
-     "org.typelevel" %% "cats-effect" % "3.4.1",
+      "org.typelevel" %% "cats-effect" % "3.4.1",
       "ch.qos.logback" % "logback-classic" % "1.4.5",
       "org.http4s" %% "http4s-ember-server" % "0.23.16"
     )
-  ).enablePlugins(Smithy4sCodegenPlugin,JavaAppPackaging)
-
+  )
+  .enablePlugins(Smithy4sCodegenPlugin, JavaAppPackaging)
