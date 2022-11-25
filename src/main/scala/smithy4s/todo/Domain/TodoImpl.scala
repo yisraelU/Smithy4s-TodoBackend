@@ -4,7 +4,7 @@ import cats.effect.IO
 import cats.implicits.catsSyntaxApplicativeId
 import example.todo._
 import smithy4s.todo.Domain.TodoImpl.url
-import smithy4s.todo.Storage.TodoRepo
+import smithy4s.todo.storage.TodoRepo
 
 class TodoImpl(todoRepo: TodoRepo[IO]) extends TodoService[IO] {
   override def createTodo(
