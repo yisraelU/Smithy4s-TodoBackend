@@ -14,7 +14,7 @@ class InMemoryImpl(ref: Ref[IO, Map[Id, Todo]], todoIdGen: TodoIdGen[IO])
     for {
       id <- todoIdGen.generateId
       _ <- ref.update(todos =>
-        todos + (id -> Todo(id, title, completed = false, Url(""), description))
+        todos + (id -> Todo(id, title, completed = false, Url(""),description))
       )
     } yield id
 

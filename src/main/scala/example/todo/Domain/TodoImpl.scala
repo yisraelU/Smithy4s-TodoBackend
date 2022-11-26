@@ -9,10 +9,10 @@ import example.todo.Storage.TodoRepo
 class TodoImpl(todoRepo: TodoRepo[IO]) extends TodoService[IO] {
   override def createTodo(
       title: Title,
-      description: Option[TodoDescription]
+      description: Option[TodoDescription],
   ): IO[CreateTodoOutput] =
-    todoRepo.createTodo(title, description).map { id =>
-      CreateTodoOutput(id, title, completed = false, url(id))
+    todoRepo.createTodo(title, description).map{
+      id => CreateTodoOutput(id,title,completed = false,url(id))
     }
 
   override def getTodo(id: Id): IO[GetTodoOutput] =
@@ -44,7 +44,7 @@ class TodoImpl(todoRepo: TodoRepo[IO]) extends TodoService[IO] {
 object TodoImpl {
 
   val host = "https://todo-smithy4s.herokuapp.com/todo"
-  def url(id: Id): Url = Url(s"$host/$id")
+  def url(id: Id):Url = Url(s"$host/$id")
   def apply(todoRepo: TodoRepo[IO]): IO[TodoService[IO]] = {
     new TodoImpl(todoRepo).pure[IO]
   }
