@@ -108,6 +108,7 @@ structure GetTodoInput {
 
 structure GetTodoOutput {
     @required
+    @httpPayload
     todo: Todo
 }
 
