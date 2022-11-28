@@ -5,9 +5,8 @@ import cats.effect.{IO, IOApp, Resource}
 import com.comcast.ip4s.{IpLiteralSyntax, Port}
 import org.http4s.HttpRoutes
 import org.http4s.ember.server.EmberServerBuilder
-import smithy4s.todo.Domain.TodoImpl
 import smithy4s.todo.http.Routes
-import smithy4s.todo.Service.TodoIdGen
+import smithy4s.todo.Service.{TodoIdGen, TodoImpl}
 import smithy4s.todo.storage.InMemoryImpl
 
 object Main extends IOApp.Simple {

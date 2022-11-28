@@ -1,9 +1,9 @@
-package smithy4s.todo.Domain
+package smithy4s.todo.Service
 
 import cats.effect.IO
 import cats.implicits.catsSyntaxApplicativeId
 import example.todo._
-import smithy4s.todo.Domain.TodoImpl.url
+import smithy4s.todo.Service.TodoImpl.url
 import smithy4s.todo.storage.TodoRepo
 
 class TodoImpl(todoRepo: TodoRepo[IO]) extends TodoService[IO] {
@@ -39,7 +39,7 @@ class TodoImpl(todoRepo: TodoRepo[IO]) extends TodoService[IO] {
     todoRepo.listTodos().map(ListTodosOutput(_))
 
   override def apiVersion(): IO[ApiVersionOutput] =
-    IO.pure(sys.env.getOrElse("API_VERSION", "1.0.0")).map(ApiVersionOutput(_))
+    IO.pure(sys.env.getOrElse("HEROKU_SLUG_COMMIT", "1.0.0")).map(ApiVersionOutput(_))
 
   override def deleteAll(): IO[Unit] = todoRepo.deleteAll()
 }
