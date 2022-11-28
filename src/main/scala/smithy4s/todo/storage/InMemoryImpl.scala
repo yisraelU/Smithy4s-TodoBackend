@@ -27,12 +27,13 @@ class InMemoryImpl(ref: Ref[IO, Map[Id, Todo]], todoIdGen: TodoIdGen[IO])
       id: Id,
       name: Option[Title],
       description: Option[TodoDescription],
+      order:Option[Order],
       completed: Option[Boolean]
   ): IO[ Todo] = {
     ref.updateAndGet { todos =>
       todos.get(id) match {
         case Some(value) =>
-          todos + (id -> value.update(name, description, completed))
+          todos + (id -> value.update(name, description,order, completed))
         case None => todos
       }
     }.map(_ (id))

@@ -2,7 +2,7 @@ package smithy4s
 package todo
 package storage
 
-import example.todo.{Id, Title, Todo, TodoDescription}
+import example.todo.{Id, Order, Title, Todo, TodoDescription}
 
 trait TodoRepo[F[_]] {
 
@@ -17,6 +17,7 @@ trait TodoRepo[F[_]] {
       id: Id,
       name: Option[Title],
       description: Option[TodoDescription],
+      order: Option[Order],
       completed: Option[Boolean]
   ): F[Todo]
 

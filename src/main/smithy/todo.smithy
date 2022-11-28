@@ -67,6 +67,8 @@ string Id
 
 string Title
 
+integer Order
+
 string TodoDescription
 
 string Url
@@ -79,7 +81,7 @@ structure Todo {
     description: TodoDescription
     @required
     completed: Boolean
-    order: Integer,
+    order: Order,
     @required
     url: Url
 }
@@ -95,6 +97,7 @@ structure TodoOutput {
     Id: Id
     @required
     title:Title
+    order:Order
     @required
     completed:Boolean
     @required
@@ -120,6 +123,7 @@ structure UpdateTodoInput {
     @httpLabel
     id: Id
     title: Title
+    order: Order
     description: TodoDescription
     completed: Boolean
 }

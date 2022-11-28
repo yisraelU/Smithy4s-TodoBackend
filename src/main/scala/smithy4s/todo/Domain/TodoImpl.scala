@@ -25,11 +25,12 @@ class TodoImpl(todoRepo: TodoRepo[IO]) extends TodoService[IO] {
   override def updateTodo(
       id: Id,
       name: Option[Title],
+      order: Option[Order],
       description: Option[TodoDescription],
       completed: Option[Boolean]
   ): IO[TodoOutput] =
-    todoRepo.updateTodo(id, name, description, completed).map { todo =>
-      TodoOutput(todo.id, todo.title, todo.completed, todo.url)
+    todoRepo.updateTodo(id, name, description, order  ,completed).map { todo =>
+      TodoOutput(todo.id, todo.title, todo.completed, todo.url, todo.order )
     }
 
   override def deleteTodo(id: Id): IO[Unit] =
