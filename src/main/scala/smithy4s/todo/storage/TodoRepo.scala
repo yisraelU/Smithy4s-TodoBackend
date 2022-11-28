@@ -18,7 +18,7 @@ trait TodoRepo[F[_]] {
       name: Option[Title],
       description: Option[TodoDescription],
       completed: Option[Boolean]
-  ): F[Unit]
+  ): F[Todo]
 
   def deleteTodo(id: Id): F[Unit]
   def deleteAll(): F[Unit]

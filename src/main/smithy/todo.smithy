@@ -19,7 +19,7 @@ operation ApiVersion {
 @http(method: "POST", uri: "/todo")
 operation CreateTodo {
     input: CreateTodoInput
-    output: CreateTodoOutput
+    output: TodoOutput
 
 }
 @idempotent
@@ -31,7 +31,7 @@ operation  DeleteAll {
 @readonly
 operation GetTodo {
     input: GetTodoInput
-    output: GetTodoOutput
+    output: TodoOutput
     errors: [TodoNotFound]
 }
 
@@ -39,6 +39,7 @@ operation GetTodo {
 @idempotent
 operation  UpdateTodo {
     input: UpdateTodoInput
+    output: TodoOutput
     errors: [TodoNotFound]
 }
 
@@ -89,7 +90,7 @@ structure CreateTodoInput {
     description: TodoDescription
 }
 
-structure CreateTodoOutput {
+structure TodoOutput {
     @required
     Id: Id
     @required
@@ -106,11 +107,6 @@ structure GetTodoInput {
     id: Id
 }
 
-structure GetTodoOutput {
-    @required
-    @httpPayload
-    todo: Todo
-}
 
 @error("client")
 @httpError(404)

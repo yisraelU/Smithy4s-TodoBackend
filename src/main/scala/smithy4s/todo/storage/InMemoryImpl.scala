@@ -28,14 +28,15 @@ class InMemoryImpl(ref: Ref[IO, Map[Id, Todo]], todoIdGen: TodoIdGen[IO])
       name: Option[Title],
       description: Option[TodoDescription],
       completed: Option[Boolean]
-  ): IO[Unit] =
-    ref.update { todos =>
+  ): IO[ Todo] = {
+    ref.updateAndGet { todos =>
       todos.get(id) match {
         case Some(value) =>
           todos + (id -> value.update(name, description, completed))
         case None => todos
       }
-    }
+    }.map(_ (id))
+  }
 
   override def deleteTodo(id: Id): IO[Unit] = {
     ref.update(todos => todos - id)

@@ -7,17 +7,18 @@ import smithy4s.todo.Domain.TodoImpl.url
 import smithy4s.todo.storage.TodoRepo
 
 class TodoImpl(todoRepo: TodoRepo[IO]) extends TodoService[IO] {
+
   override def createTodo(
       title: Title,
       description: Option[TodoDescription]
-  ): IO[CreateTodoOutput] =
+  ): IO[TodoOutput] =
     todoRepo.createTodo(title, description).map { id =>
-      CreateTodoOutput(id, title, completed = false, url(id))
+      TodoOutput(id, title, completed = false, url(id))
     }
 
-  override def getTodo(id: Id): IO[GetTodoOutput] =
+  override def getTodo(id: Id): IO[TodoOutput] =
     todoRepo.getTodo(id).flatMap {
-      case Some(todo) => IO.pure(GetTodoOutput(todo))
+      case Some(todo) => IO.pure(TodoOutput(todo.id, todo.title, todo.completed, todo.url))
       case None       => IO.raiseError(TodoNotFound("Todo not found"))
     }
 
@@ -26,8 +27,10 @@ class TodoImpl(todoRepo: TodoRepo[IO]) extends TodoService[IO] {
       name: Option[Title],
       description: Option[TodoDescription],
       completed: Option[Boolean]
-  ): IO[Unit] =
-    todoRepo.updateTodo(id, name, description, completed)
+  ): IO[TodoOutput] =
+    todoRepo.updateTodo(id, name, description, completed).map { todo =>
+      TodoOutput(todo.id, todo.title, todo.completed, todo.url)
+    }
 
   override def deleteTodo(id: Id): IO[Unit] =
     todoRepo.deleteTodo(id)
