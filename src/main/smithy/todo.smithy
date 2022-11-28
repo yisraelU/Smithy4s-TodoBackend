@@ -57,6 +57,7 @@ operation  ListTodos {
 
 }
 
+@documentation("outputs the git commit hash for the current app version")
 structure ApiVersionOutput {
     @required
     version: String
