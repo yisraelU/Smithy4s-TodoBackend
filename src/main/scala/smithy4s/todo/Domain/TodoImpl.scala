@@ -19,7 +19,7 @@ class TodoImpl(todoRepo: TodoRepo[IO]) extends TodoService[IO] {
 
   override def getTodo(id: Id): IO[TodoOutput] =
     todoRepo.getTodo(id).flatMap {
-      case Some(todo) => IO.pure(TodoOutput(todo.id, todo.title, todo.completed, todo.url))
+      case Some(todo) => IO.pure(TodoOutput(todo.id, todo.title, todo.completed, todo.url,todo.order))
       case None       => IO.raiseError(TodoNotFound("Todo not found"))
     }
 
