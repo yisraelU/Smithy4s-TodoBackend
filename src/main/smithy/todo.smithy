@@ -35,7 +35,7 @@ operation GetTodo {
     errors: [TodoNotFound]
 }
 
-@http(method: "PUT", uri: "/todo/{id}")
+@http(method: "PATCH", uri: "/todo/{id}")
 @idempotent
 operation  UpdateTodo {
     input: UpdateTodoInput
