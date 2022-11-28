@@ -12,14 +12,14 @@ class TodoImpl(todoRepo: TodoRepo[IO]) extends TodoService[IO] {
       title: Title,
       order: Option[Order],
       description: Option[TodoDescription]
-  ): IO[TodoOutput] =
+  ): IO[Todo] =
     todoRepo.createTodo(title,order, description).map { id =>
-      TodoOutput(id, title, completed = false, url(id),order)
+      Todo(id, title, completed = false, url(id),description,order)
     }
 
-  override def getTodo(id: Id): IO[TodoOutput] =
+  override def getTodo(id: Id): IO[Todo] =
     todoRepo.getTodo(id).flatMap {
-      case Some(todo) => IO.pure(TodoOutput(todo.id, todo.title, todo.completed, todo.url,todo.order))
+      case Some(todo) => IO.pure(Todo(todo.id, todo.title, todo.completed, todo.url,todo.description,todo.order))
       case None       => IO.raiseError(TodoNotFound("Todo not found"))
     }
 
@@ -29,10 +29,8 @@ class TodoImpl(todoRepo: TodoRepo[IO]) extends TodoService[IO] {
       order: Option[Order],
       description: Option[TodoDescription],
       completed: Option[Boolean]
-  ): IO[TodoOutput] =
-    todoRepo.updateTodo(id, name, description, order  ,completed).map { todo =>
-      TodoOutput(todo.id, todo.title, todo.completed, todo.url, todo.order )
-    }
+  ): IO[Todo] =
+    todoRepo.updateTodo(id, name, description, order  ,completed)
 
   override def deleteTodo(id: Id): IO[Unit] =
     todoRepo.deleteTodo(id)
