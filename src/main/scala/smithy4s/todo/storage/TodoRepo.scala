@@ -8,6 +8,7 @@ trait TodoRepo[F[_]] {
 
   def createTodo(
       title: Title,
+      order: Option[Order],
       description: Option[TodoDescription]
   ): F[Id]
 

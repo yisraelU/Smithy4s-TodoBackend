@@ -10,10 +10,11 @@ class TodoImpl(todoRepo: TodoRepo[IO]) extends TodoService[IO] {
 
   override def createTodo(
       title: Title,
+      order: Option[Order],
       description: Option[TodoDescription]
   ): IO[TodoOutput] =
-    todoRepo.createTodo(title, description).map { id =>
-      TodoOutput(id, title, completed = false, url(id))
+    todoRepo.createTodo(title,order, description).map { id =>
+      TodoOutput(id, title, completed = false, url(id),order)
     }
 
   override def getTodo(id: Id): IO[TodoOutput] =

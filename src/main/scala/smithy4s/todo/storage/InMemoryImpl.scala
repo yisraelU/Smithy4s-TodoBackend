@@ -10,13 +10,14 @@ class InMemoryImpl(ref: Ref[IO, Map[Id, Todo]], todoIdGen: TodoIdGen[IO])
     extends TodoRepo[IO] {
   override def createTodo(
       title: Title,
+      order: Option[Order],
       description: Option[TodoDescription] ,
 
   ): IO[Id] =
     for {
       id <- todoIdGen.generateId
       _ <- ref.update(todos =>
-        todos + (id -> Todo(id, title, completed = false, Url( s"https://todo-smithy4s.herokuapp.com/todo/$id"),description))
+        todos + (id -> Todo(id, title, completed = false, Url( s"https://todo-smithy4s.herokuapp.com/todo/$id"),description, order))
       )
     } yield id
 

@@ -89,6 +89,7 @@ structure Todo {
 structure CreateTodoInput {
     @required
     title: Title
+    order:Order
     description: TodoDescription
 }
 
