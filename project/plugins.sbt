@@ -1,5 +1,5 @@
 addSbtPlugin(
-  "com.disneystreaming.smithy4s" % "smithy4s-sbt-codegen" % "0.17.0"
+  "com.disneystreaming.smithy4s" % "smithy4s-sbt-codegen" % "0.17.4"
 )
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.0")
 addSbtPlugin("io.spray" % "sbt-revolver" % "0.9.1")
