@@ -13,14 +13,24 @@ class TodoImpl(todoRepo: TodoRepo[IO]) extends TodoService[IO] {
       order: Option[Order],
       description: Option[TodoDescription]
   ): IO[Todo] =
-    todoRepo.createTodo(title,order, description).map { id =>
-      Todo(id, title, completed = false, url(id),description,order)
+    todoRepo.createTodo(title, order, description).map { id =>
+      Todo(id, title, completed = false, url(id), description, order)
     }
 
   override def getTodo(id: Id): IO[Todo] =
     todoRepo.getTodo(id).flatMap {
-      case Some(todo) => IO.pure(Todo(todo.id, todo.title, todo.completed, todo.url,todo.description,todo.order))
-      case None       => IO.raiseError(TodoNotFound("Todo not found"))
+      case Some(todo) =>
+        IO.pure(
+          Todo(
+            todo.id,
+            todo.title,
+            todo.completed,
+            todo.url,
+            todo.description,
+            todo.order
+          )
+        )
+      case None => IO.raiseError(TodoNotFound("Todo not found"))
     }
 
   override def updateTodo(
@@ -30,7 +40,7 @@ class TodoImpl(todoRepo: TodoRepo[IO]) extends TodoService[IO] {
       description: Option[TodoDescription],
       completed: Option[Boolean]
   ): IO[Todo] =
-    todoRepo.updateTodo(id, name, description, order  ,completed)
+    todoRepo.updateTodo(id, name, description, order, completed)
 
   override def deleteTodo(id: Id): IO[Unit] =
     todoRepo.deleteTodo(id)
@@ -39,7 +49,8 @@ class TodoImpl(todoRepo: TodoRepo[IO]) extends TodoService[IO] {
     todoRepo.listTodos().map(ListTodosOutput(_))
 
   override def apiVersion(): IO[ApiVersionOutput] =
-    IO.pure(sys.env.getOrElse("HEROKU_SLUG_COMMIT", "1.0.0")).map(ApiVersionOutput(_))
+    IO.pure(sys.env.getOrElse("HEROKU_SLUG_COMMIT", "1.0.0"))
+      .map(ApiVersionOutput(_))
 
   override def deleteAll(): IO[Unit] = todoRepo.deleteAll()
 }
