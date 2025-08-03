@@ -11,13 +11,19 @@ class InMemoryImpl(ref: Ref[IO, Map[Id, Todo]], todoIdGen: TodoIdGen[IO])
   override def createTodo(
       title: Title,
       order: Option[Order],
-      description: Option[TodoDescription] ,
-
+      description: Option[TodoDescription]
   ): IO[Id] =
     for {
       id <- todoIdGen.generateId
       _ <- ref.update(todos =>
-        todos + (id -> Todo(id, title, completed = false, Url( s"https://todo-smithy4s.herokuapp.com/todo/$id"),description, order))
+        todos + (id -> Todo(
+          id,
+          title,
+          completed = false,
+          Url(s"https://todo-smithy4s.herokuapp.com/todo/$id"),
+          description,
+          order
+        ))
       )
     } yield id
 
@@ -28,16 +34,18 @@ class InMemoryImpl(ref: Ref[IO, Map[Id, Todo]], todoIdGen: TodoIdGen[IO])
       id: Id,
       name: Option[Title],
       description: Option[TodoDescription],
-      order:Option[Order],
+      order: Option[Order],
       completed: Option[Boolean]
-  ): IO[ Todo] = {
-    ref.updateAndGet { todos =>
-      todos.get(id) match {
-        case Some(value) =>
-          todos + (id -> value.update(name, description,order, completed))
-        case None => todos
+  ): IO[Todo] = {
+    ref
+      .updateAndGet { todos =>
+        todos.get(id) match {
+          case Some(value) =>
+            todos + (id -> value.update(name, description, order, completed))
+          case None => todos
+        }
       }
-    }.map(_ (id))
+      .map(_(id))
   }
 
   override def deleteTodo(id: Id): IO[Unit] = {
